@@ -3,3 +3,16 @@
         <router-view />
     </div>
 </template>
+
+<script>
+export default {
+    name: "EmptyLayout",
+    components: {},
+    props: {},
+    data () {
+        return {
+            
+        }
+    },
+}
+</script>
