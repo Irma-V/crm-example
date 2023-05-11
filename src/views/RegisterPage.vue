@@ -36,7 +36,7 @@
             <p class="center">
                 Уже есть аккаунт?
                 <router-link :to="{ name: 'login' }">
-                    <a href="/">Войти!</a>
+                    Войти!
                 </router-link>
             </p>
         </div>

@@ -10,13 +10,12 @@
             </div>
         </main>
 
-        <router-link :to="{ name: 'record' }">
+        
             <div class="fixed-action-btn">
-                <a class="btn-floating btn-large blue" href="#">
+                <router-link :to="{ name: 'record' }" class="btn-floating btn-large blue" href="#">
                     <i class="large material-icons">add</i>
-                </a>
+                </router-link>
             </div>
-        </router-link>
     </div>
 </template>
 
@@ -38,13 +37,14 @@ export default {
         }
     },
 
-    created() {
-        console.log(this.isOpen);
-    },
+    // created() {
+    //     // console.log(this.isOpen);
+    // },
+    
     methods: {
         closeSideBar() {
             this.isOpen = !this.isOpen
-            console.log(this.isOpen);
+            // console.log(this.isOpen);
             return this.isOpen
         }
     }
