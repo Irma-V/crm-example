@@ -49,8 +49,10 @@
 </template>
 
 <script>
+import messages from '@/utils/messages'
 import { useVuelidate } from '@vuelidate/core'
 import { email, required, minLength } from '@vuelidate/validators'
+
 
 export default {
     name: "LoginPage",
@@ -77,6 +79,13 @@ export default {
         // console.log(this.v$);
         // console.log(this.v$.email.required);
         // console.log(this.v$.password.minLength);
+
+        // this.$message('Test')
+        // this.$error('Test')
+        if (messages[this.$route.query.message]) {
+            this.$message(messages[this.$route.query.message])
+        }
+
     },
     computed: {
         errorMessage() {

@@ -31,7 +31,7 @@
             <p>
                 <label>
                     <input type="checkbox" v-model="agree">
-                    <span>С правилами согласен</span>
+                    <span>С <router-link :to="{ name: 'userAgreementPage' }" target="_blank" class="lighten-2">правилами</router-link> согласен</span>
                 </label>
             </p>
         </div>
@@ -86,7 +86,7 @@ export default {
                 this.v$.$touch()
                 return
             }
-            
+
             const formData = {
                 email: this.email,
                 password: this.password,

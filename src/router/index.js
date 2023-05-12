@@ -17,6 +17,12 @@ const routes = [
     meta: { layout: "empty" },
     component: () => import("../views/RegisterPage"),
   },
+  {
+    path: "/userAgreementPage",
+    name: "userAgreementPage",
+    meta: { layout: "empty" },
+    component: () => import("../views/UserAgreementPage"),
+  },
   //main-layout
   {
     path: "/",
