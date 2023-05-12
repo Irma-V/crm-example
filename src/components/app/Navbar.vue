@@ -50,12 +50,12 @@ export default {
         }
     },
     mounted() {
-        this.interval = setInterval(() => {
-            this.date = new Date()
-        }, 1000)
+        // this.interval = setInterval(() => {
+        //     this.date = new Date()
+        // }, 1000)
 
         // console.log(this.date.getDate() + '.' + (this.date.getMonth() + 1) + '.' + this.date.getFullYear())
-        // this.date = this.date.getDate() + '.' + (this.date.getMonth() + 1) + '.' + this.date.getFullYear()
+        this.date = this.date.getDate() + '.0' + (this.date.getMonth() + 1) + '.' + this.date.getFullYear()
 
         this.dropdown = M.Dropdown.init(this.$refs.dropdown, {
             constrainWidth: true

@@ -4,18 +4,25 @@
         <div class="card-content">
             <span class="card-title">Домашняя бухгалтерия</span>
             <div class="input-field">
-                <input id="email" type="text" v-model.trim="email" :class="{ invalid: v$.email.$dirty && v$.email.$invalid }" />
+                <input id="email" type="text" v-model.trim="email"
+                    :class="{ invalid: v$.email.$dirty && v$.email.$invalid }" />
                 <!-- (v$.email.$dirty && !v$.email.required) || (v$.email.$dirty && !v$.email.email) :class="{ invalid: v$.email.$invalid }"-->
-                <label for="email">Email</label>
-                <small class="helper-text invalid" v-for="error of v$.email.$errors" :key="error.$uid">Email-Error: {{
-                    error.$message }}</small>
 
-                    <small class="helper-text invalid" v-if=" v$.email.$dirty && !v$.email.required" > Поле не должно быть пустым!</small>
-                    <!-- <small class="helper-text invalid" v-else-if=" v$.email.$dirty && !v$.email.email" > Некорректный e'mail адрес!</small> -->
+                <label for="email">Email</label>
+                <small class="helper-text invalid" v-for="error of v$.email.$errors" :key="error.$uid">
+                    Email-Error: {{ error.$message }}
+                </small>
+
+                <small class="helper-text invalid"> {{ errorMessage }}</small>
+
+                <!-- не работает: -->
+                <!-- <small class="helper-text invalid" v-if="(v$.email.$dirty && !(v$.email.required))">Поле не должно быть пустым!</small> -->
+                <!-- <small class="helper-text invalid" v-else-if="(v$.email.$dirty && !(v$.email.email))"> Некорректный e'mail адрес!</small> -->
 
             </div>
             <div class="input-field">
-                <input id="password" type="password" v-model.trim="password" :class="{ invalid: v$.password.$dirty && v$.password.$invalid }" />
+                <input id="password" type="password" v-model.trim="password"
+                    :class="{ invalid: v$.password.$dirty && v$.password.$invalid }" />
                 <!-- :class="{ invalid: v$.password.$invalid }" -->
                 <label for="password">Пароль</label>
                 <small class="helper-text invalid" v-for="error of v$.password.$errors" :key="error.$uid">Password-Error: {{
@@ -71,12 +78,32 @@ export default {
         // console.log(this.v$.email.required);
         // console.log(this.v$.password.minLength);
     },
+    computed: {
+        errorMessage() {
+            // const msg = ''
+            // console.log(this.v$.email.required);
+            // console.log(this.v$.email.email);
+            // console.log(this.v$.email.$dirty);
+            //     
+            //     if (this.v$.email.$dirty) {
+            //        msg = 'jopa'
+            //     }
+
+            //     // console.log(msg);
+            //     return msg
+        }
+    },
     methods: {
         submitHandler() {
             if (this.v$.$invalid) {
                 this.v$.$touch()
                 return
             }
+            const formData = {
+                email: this.email,
+                password: this.password
+            }
+            console.log(formData);
             this.$router.push('/')
         },
     },
