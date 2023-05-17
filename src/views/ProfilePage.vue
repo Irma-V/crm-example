@@ -20,6 +20,7 @@
 </template>
 
 <script>
+
 export default {
     name: "ProfilePage",
     components: {},
@@ -29,5 +30,6 @@ export default {
 
         }
     },
+
 }
 </script>

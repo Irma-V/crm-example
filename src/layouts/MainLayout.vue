@@ -2,7 +2,7 @@
     <div class="app-main-layout">
         <VNavbar @clickOnBurger="closeSideBar()" />
 
-        <VSidebar :class="{open: this.isOpen}"/>
+        <VSidebar :class="{ open: this.isOpen }" />
 
         <main class="app-content" :class="{ full: !isOpen }">
             <div class="app-page">
@@ -10,18 +10,19 @@
             </div>
         </main>
 
-        
-            <div class="fixed-action-btn">
-                <router-link :to="{ name: 'record' }" class="btn-floating btn-large blue" href="#">
-                    <i class="large material-icons">add</i>
-                </router-link>
-            </div>
+
+        <div class="fixed-action-btn">
+            <router-link :to="{ name: 'record' }" class="btn-floating btn-large blue" href="#">
+                <i class="large material-icons">add</i>
+            </router-link>
+        </div>
     </div>
 </template>
 
 <script>
 import VNavbar from '@/components/app/Navbar.vue';
 import VSidebar from '@/components/app/Sidebar.vue';
+import messages from '@/utils/messages'
 
 
 export default {
@@ -40,7 +41,13 @@ export default {
     // created() {
     //     // console.log(this.isOpen);
     // },
-    
+
+    mounted() {
+        if (messages[this.$route.query.message]) {
+            this.$message(messages[this.$route.query.message])
+        }
+
+    },
     methods: {
         closeSideBar() {
             this.isOpen = !this.isOpen

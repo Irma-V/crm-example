@@ -13,8 +13,6 @@
                     Email-Error: {{ error.$message }}
                 </small>
 
-                <small class="helper-text invalid"> {{ errorMessage }}</small>
-
                 <!-- не работает: -->
                 <!-- <small class="helper-text invalid" v-if="(v$.email.$dirty && !(v$.email.required))">Поле не должно быть пустым!</small> -->
                 <!-- <small class="helper-text invalid" v-else-if="(v$.email.$dirty && !(v$.email.email))"> Некорректный e'mail адрес!</small> -->
@@ -37,6 +35,8 @@
                 </button>
             </div>
 
+            <small v-if="errorMessage" class="helper-text invalid"> {{ errorMessage }}</small>
+
             <p class="center">
                 Нет аккаунта?
                 <router-link :to="{ name: 'register' }">
@@ -49,9 +49,9 @@
 </template>
 
 <script>
-import messages from '@/utils/messages'
 import { useVuelidate } from '@vuelidate/core'
 import { email, required, minLength } from '@vuelidate/validators'
+import { Store, useStore } from 'vuex'
 
 
 export default {
@@ -61,6 +61,7 @@ export default {
         return {
             email: '',
             password: '',
+            errorMessage: '',
         }
     },
 
@@ -82,28 +83,9 @@ export default {
 
         // this.$message('Test')
         // this.$error('Test')
-        if (messages[this.$route.query.message]) {
-            this.$message(messages[this.$route.query.message])
-        }
-
-    },
-    computed: {
-        errorMessage() {
-            // const msg = ''
-            // console.log(this.v$.email.required);
-            // console.log(this.v$.email.email);
-            // console.log(this.v$.email.$dirty);
-            //     
-            //     if (this.v$.email.$dirty) {
-            //        msg = 'jopa'
-            //     }
-
-            //     // console.log(msg);
-            //     return msg
-        }
     },
     methods: {
-        submitHandler() {
+        async submitHandler() {
             if (this.v$.$invalid) {
                 this.v$.$touch()
                 return
@@ -112,6 +94,12 @@ export default {
                 email: this.email,
                 password: this.password
             }
+            // try {
+            //     await this.$store.dispatch('logIn', formData)
+            //     this.$router.push('/')
+            // } catch (error) {
+            //     this.errorMessage = error.message
+            // }
             console.log(formData);
             this.$router.push('/')
         },

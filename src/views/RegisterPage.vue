@@ -18,20 +18,20 @@
                     :class="{ invalid: v$.password.$dirty && v$.password.$invalid }" />
                 <!-- :class="{ invalid: v$.password.$invalid }" -->
                 <label for="password">Пароль</label>
-                <small class="helper-text invalid" v-for="error of v$.password.$errors" :key="error.$uid" >Password-Error: {{
+                <small class="helper-text invalid" v-for="error of v$.password.$errors" :key="error.$uid">Password-Error: {{
                     error.$message }}</small>
             </div>
             <div class="input-field">
-                <input id="name" type="text" v-model.trim="name"
-                :class="{ invalid: v$.name.$dirty && v$.name.$invalid }" />
+                <input id="name" type="text" v-model.trim="name" :class="{ invalid: v$.name.$dirty && v$.name.$invalid }" />
                 <label for="name">Имя</label>
-                <small class="helper-text invalid" v-for="error of v$.name.$errors" :key="error.$uid" >Name-Error: {{
+                <small class="helper-text invalid" v-for="error of v$.name.$errors" :key="error.$uid">Name-Error: {{
                     error.$message }}</small>
             </div>
             <p>
                 <label>
                     <input type="checkbox" v-model="agree">
-                    <span>С <router-link :to="{ name: 'userAgreementPage' }" target="_blank" class="lighten-2">правилами</router-link> согласен</span>
+                    <span>С <router-link :to="{ name: 'userAgreementPage' }" target="_blank"
+                            class="lighten-2">правилами</router-link> согласен</span>
                 </label>
             </p>
         </div>
@@ -42,6 +42,8 @@
                     <i class="material-icons right">send</i>
                 </button>
             </div>
+
+            <small v-if="errorMessage" class="helper-text invalid"> {{ errorMessage }}</small>
 
             <p class="center">
                 Уже есть аккаунт?
@@ -66,7 +68,8 @@ export default {
             email: '',
             password: '',
             name: '',
-            agree: false
+            agree: false,
+            errorMessage: '',
         }
     },
     setup() {
@@ -81,7 +84,7 @@ export default {
         }
     },
     methods: {
-        submitHandler() {
+        async submitHandler() {
             if (this.v$.$invalid) {
                 this.v$.$touch()
                 return
@@ -92,9 +95,18 @@ export default {
                 password: this.password,
                 name: this.name
             }
-            console.log(formData);
 
-            this.$router.push('/')
+            // try {
+            //     await this.$store.dispatch('register', formData)
+            //     this.$router.push('/profile?message=registered')
+            // } catch (error) {
+            //     this.errorMessage = error.message
+            // }
+
+            // console.log(submitHandler, formData, this.errorMessage);
+
+            console.log(formData);
+            this.$router.push('/profile?message=registered')
         },
     },
 }
