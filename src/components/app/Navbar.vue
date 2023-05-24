@@ -12,7 +12,8 @@
             <ul class="right hide-on-small-and-down">
                 <li>
                     <a ref="dropdown" class="dropdown-trigger black-text" href="#" data-target="dropdown">
-                        USER NAME {{  }}
+                        <!-- USER NAME  -->
+                        {{ userName }}
                         <i class="material-icons right">arrow_drop_down</i>
                     </a>
 
@@ -49,6 +50,7 @@ export default {
             date: new Date,
             interval: null,
             dropdown: null,
+            userName: '',
         }
     },
     mounted() {
@@ -63,22 +65,24 @@ export default {
             constrainWidth: true
         })
 
-        auth.onAuthStateChanged(user => {
-            this.$store.dispatch("fetchUser", user);
+        auth.onAuthStateChanged(async (user) => {
+            await store.dispatch("fetchUser", user);
+            console.log(user);
+            this.userName = user.displayName
         });
     },
-    
-    computed() {
-        const user = this.$store.getters.user
-    },
+
+    // computed() {
+    //     const user = this.$store.getters.user
+    // },
 
     methods: {
         async logout() {
             await store.dispatch('logOut')
-            // this.$router.push('/login?message=logout')
+            this.$router.push('/login?message=logout')
 
             // console.log('logout');
-            this.$router.push('/login?message=logout')
+            // this.$router.push('/login?message=logout')
         },
     },
 
