@@ -51,6 +51,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core'
 import { email, required, minLength } from '@vuelidate/validators'
+// import { store } from '@/store'
 import { Store, useStore } from 'vuex'
 
 
@@ -80,9 +81,6 @@ export default {
         // console.log(this.v$);
         // console.log(this.v$.email.required);
         // console.log(this.v$.password.minLength);
-
-        // this.$message('Test')
-        // this.$error('Test')
     },
     methods: {
         async submitHandler() {
@@ -94,14 +92,16 @@ export default {
                 email: this.email,
                 password: this.password
             }
-            // try {
-            //     await this.$store.dispatch('logIn', formData)
-            //     this.$router.push('/')
-            // } catch (error) {
-            //     this.errorMessage = error.message
-            // }
-            console.log(formData);
-            this.$router.push('/')
+
+            try {
+                await this.$store.dispatch('logIn', formData)
+                this.$router.push('/')
+            } catch (error) {
+                this.errorMessage = error.message
+            }
+            
+            // console.log(formData);
+            // this.$router.push('/')
         },
     },
 }

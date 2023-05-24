@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
-
+import { auth } from "@/main";
+import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, signOut } from "firebase/auth";
 const store = createStore({
   state: {
     user: {
@@ -25,11 +26,13 @@ const store = createStore({
       const response = await createUserWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
       if (response) {
         context.commit("SET_USER", response.user);
-        response.user.updateProfile({ displayName: name });
+        // выдает ошибку updateProfile is not a function (Firebase) даже при импорте данной ф-ии
+        // console.log(usr);
+        //  updateProfile({ displayName: name });
       } else {
         throw new Error("Unable to register user");
       }
@@ -39,6 +42,7 @@ const store = createStore({
       const response = await signInWithEmailAndPassword(auth, email, password);
       if (response) {
         context.commit("SET_USER", response.user);
+        console.log(context);
       } else {
         throw new Error("login failed");
       }

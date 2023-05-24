@@ -12,7 +12,7 @@
             <ul class="right hide-on-small-and-down">
                 <li>
                     <a ref="dropdown" class="dropdown-trigger black-text" href="#" data-target="dropdown">
-                        USER NAME
+                        USER NAME {{  }}
                         <i class="material-icons right">arrow_drop_down</i>
                     </a>
 
@@ -37,6 +37,8 @@
 
 <script>
 // import dateFilter from '@/filters/date.filter'
+import { auth } from '@/main'
+import store from '@/store'
 
 export default {
     name: "VNavbar",
@@ -60,6 +62,24 @@ export default {
         this.dropdown = M.Dropdown.init(this.$refs.dropdown, {
             constrainWidth: true
         })
+
+        auth.onAuthStateChanged(user => {
+            this.$store.dispatch("fetchUser", user);
+        });
+    },
+    
+    computed() {
+        const user = this.$store.getters.user
+    },
+
+    methods: {
+        async logout() {
+            await store.dispatch('logOut')
+            // this.$router.push('/login?message=logout')
+
+            // console.log('logout');
+            this.$router.push('/login?message=logout')
+        },
     },
 
     beforeUnmount() {
@@ -70,12 +90,5 @@ export default {
             this.dropdown.destroy
         }
     },
-
-    methods: {
-        logout() {
-            // console.log('logout');
-            this.$router.push('/login?message=logout')
-        },
-    }
 }
 </script>

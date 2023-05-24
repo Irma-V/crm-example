@@ -59,6 +59,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core'
 import { email, required, minLength } from '@vuelidate/validators'
+import store from '@/store'
+
 
 export default {
     name: "RegisterPage",
@@ -96,17 +98,15 @@ export default {
                 name: this.name
             }
 
-            // try {
-            //     await this.$store.dispatch('register', formData)
-            //     this.$router.push('/profile?message=registered')
-            // } catch (error) {
-            //     this.errorMessage = error.message
-            // }
+            try {
+                await store.dispatch('register', formData)
+                this.$router.push('/profile?message=registered')
+            } catch (error) {
+                this.errorMessage = error.message
+            }
 
-            // console.log(submitHandler, formData, this.errorMessage);
-
-            console.log(formData);
-            this.$router.push('/profile?message=registered')
+            // console.log(formData);
+            // this.$router.push('/profile?message=registered')
         },
     },
 }
