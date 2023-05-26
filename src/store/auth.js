@@ -1,10 +1,12 @@
-import { auth } from "@/main";
+import { auth, database } from "@/main";
 import {
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+
+import { ref, set } from "firebase/database";
 
 export default {
   state: {
@@ -39,27 +41,33 @@ export default {
 
       if (response) {
         context.commit("SET_USER", response.user);
-
         updateProfile(response.user, { displayName: name });
-        console.log(response.user);
+        // console.log(response.user); /* содержимое экземпляра user */
 
-        /* выдает ошибку updateProfile is not a function (Firebase) даже при импорте данной ф-ии */
-        // response.user.updateProfile({displayName: name})
+        // /* выдает ошибку updateProfile is not a function (Firebase) даже при импорте данной ф-ии */
+        // // response.user.updateProfile({displayName: name})
 
-        /* ош: Cannot destructure property 'displayName' of 'undefined' as it is undefined. */
-        // await updateProfile({ displayName: name });
-        // console.log(displayName); /* до данной строчки обработчик не доходит. */
-        
-        /* заполнит displayName, но не обновит значение */
-        // response.user.displayName = name; 
-    } else {
+        // /* ош: Cannot destructure property 'displayName' of 'undefined' as it is undefined. */
+        // // await updateProfile({ displayName: name });
+        // // console.log(displayName); /* до данной строчки обработчик не доходит. */
+
+        // /* заполнит displayName, но не обновит значение */
+        // // response.user.displayName = name;
+
+        const uid = response.user.uid;
+        set(ref(database, `users/${uid}/info`), {
+          bill: 10000,
+          userName: name,
+        });
+      } else {
         throw new Error("Unable to register user");
+        
       }
     },
 
     async logIn(context, { email, password }) {
       const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response.user);
+    //   console.log(response.user);  /* содержимое экземпляра user */
       if (response) {
         context.commit("SET_USER", response.user);
       } else {

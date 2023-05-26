@@ -17,6 +17,7 @@
                 <input id="password" type="password" v-model.trim="password"
                     :class="{ invalid: v$.password.$dirty && v$.password.$invalid }" />
                 <!-- :class="{ invalid: v$.password.$invalid }" -->
+
                 <label for="password">Пароль</label>
                 <small class="helper-text invalid" v-for="error of v$.password.$errors" :key="error.$uid">Password-Error: {{
                     error.$message }}</small>
@@ -89,6 +90,7 @@ export default {
         async submitHandler() {
             if (this.v$.$invalid) {
                 this.v$.$touch()
+                this.runErrorCatcher()
                 return
             }
 
@@ -102,12 +104,28 @@ export default {
                 await store.dispatch('register', formData)
                 this.$router.push('/profile?message=registered')
             } catch (error) {
-                this.errorMessage = error.message
+                // this.errorMessage = error.message /* для отображения ошибки в форме */
+                store.commit('setError', error.message)
+                throw error.message
             }
 
             // console.log(formData);
             // this.$router.push('/profile?message=registered')
         },
+
+        runErrorCatcher() {
+            console.log(this.v$.$errors)
+            const errors = this.v$.$errors
+
+            for (let error in errors) {
+                // console.log(errors[error].$message);
+                
+                if (errors[error].$message === "Value is required") {
+                    errors[error].$message = "Поле не должно быть пустым"
+                    console.log(errors[error].$message);
+                }
+            }
+        }
     },
 }
 </script>

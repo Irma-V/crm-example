@@ -7,8 +7,8 @@
                 <input id="email" type="text" v-model.trim="email"
                     :class="{ invalid: v$.email.$dirty && v$.email.$invalid }" />
                 <!-- (v$.email.$dirty && !v$.email.required) || (v$.email.$dirty && !v$.email.email) :class="{ invalid: v$.email.$invalid }"-->
-
                 <label for="email">Email</label>
+
                 <small class="helper-text invalid" v-for="error of v$.email.$errors" :key="error.$uid">
                     Email-Error: {{ error.$message }}
                 </small>
@@ -23,8 +23,11 @@
                     :class="{ invalid: v$.password.$dirty && v$.password.$invalid }" />
                 <!-- :class="{ invalid: v$.password.$invalid }" -->
                 <label for="password">Пароль</label>
-                <small class="helper-text invalid" v-for="error of v$.password.$errors" :key="error.$uid">Password-Error: {{
-                    error.$message }}</small>
+
+                <small class="helper-text invalid" v-for="error of v$.password.$errors" :key="error.$uid">
+                    Password-Error: {{ error.$message }}
+                </small>
+
             </div>
         </div>
         <div class="card-action">
@@ -35,7 +38,7 @@
                 </button>
             </div>
 
-            <small v-if="errorMessage" class="helper-text invalid"> {{ errorMessage }}</small>
+            <small v-if="authErrorMsg" class="helper-text invalid"> {{ authErrorMsg }}</small>
 
             <p class="center">
                 Нет аккаунта?
@@ -51,9 +54,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core'
 import { email, required, minLength } from '@vuelidate/validators'
-// import { store } from '@/store'
-import { Store, useStore } from 'vuex'
-
+import store from '@/store'
 
 export default {
     name: "LoginPage",
@@ -62,7 +63,9 @@ export default {
         return {
             email: '',
             password: '',
-            errorMessage: '',
+            authErrorMsg: '',
+            validErrorMsg: '',
+
         }
     },
 
@@ -86,6 +89,7 @@ export default {
         async submitHandler() {
             if (this.v$.$invalid) {
                 this.v$.$touch()
+                this.runErrorCatcher()
                 return
             }
             const formData = {
@@ -94,15 +98,37 @@ export default {
             }
 
             try {
-                await this.$store.dispatch('logIn', formData)
-                this.$router.push('/')
+                await store.dispatch('logIn', formData)
+                this.$router.push('/?message=loggedin_success')
             } catch (error) {
-                this.errorMessage = error.message
+                // this.authErrorMsg = error.message /* для отображения ошибки в форме */
+                store.commit('setError', error.message)
+                throw error.message
             }
-            
+
             // console.log(formData);
-            // this.$router.push('/')
+            // this.$router.push('/?message=loggedin_success')
         },
+
+        runErrorCatcher() {
+            console.log(this.v$.$errors)
+            const errors = this.v$.$errors
+
+            for (let error in errors) {
+                console.log(errors[error].$message);
+
+                if (errors[error].$message === "Value is required") {
+                    // this.validErrorMsg = "Поле не должно быть пустым"
+                    // console.log(errors[error].$message);
+                }
+
+                if (errors[error].$message === "This field should be at least 6 characters long") {
+                    // this.validErrorMsg === "Пароль должен содержать не менее 6 символов"
+                    // console.log('jopa');
+                    console.log(errors[error].$message);
+                }
+            }
+        }
     },
 }
 </script>

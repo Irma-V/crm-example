@@ -8,22 +8,24 @@ import messagePlugin from "@/utils/message.plugin";
 
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB9woz4HLjKP9KuofGvpNabDpravteUE1o",
-  authDomain: "crm-example-1421f.firebaseapp.com",
-  projectId: "crm-example-1421f",
-  storageBucket: "crm-example-1421f.appspot.com",
-  messagingSenderId: "789736613481",
-  appId: "1:789736613481:web:2a018c583bee54f0e0a4f8",
+    apiKey: "AIzaSyAITusZAn6_V_yz_UlNf3SNmnwNFWBRLD8",
+    authDomain: "crm-example-67f6a.firebaseapp.com",
+    projectId: "crm-example-67f6a",
+    storageBucket: "crm-example-67f6a.appspot.com",
+    messagingSenderId: "944080150353",
+    appId: "1:944080150353:web:37cd566c2130b84b19bd70"
 };
 
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 createApp(App).use(store).use(router).use(messagePlugin).mount("#app");
 
 const auth = getAuth();
-export { app, auth };
+export { app, database, auth };
 
 // const app = createApp(App);
 // app.use(store);
