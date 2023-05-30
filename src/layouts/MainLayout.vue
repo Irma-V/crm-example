@@ -22,6 +22,7 @@
 <script>
 import VNavbar from '@/components/app/Navbar.vue';
 import VSidebar from '@/components/app/Sidebar.vue';
+import store from '@/store';
 import messages from '@/utils/messages'
 
 
@@ -42,11 +43,13 @@ export default {
     //     // console.log(this.isOpen);
     // },
 
-    mounted() {
+    async mounted() {
         if (messages[this.$route.query.message]) {
             this.$message(messages[this.$route.query.message])
         }
-
+        if (!Object.keys(store.getters.info).length) {
+            await store.dispatch('fetchInfo')
+        }
     },
     methods: {
         closeSideBar() {

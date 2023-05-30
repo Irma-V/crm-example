@@ -61,13 +61,12 @@ export default {
         });
       } else {
         throw new Error("Unable to register user");
-        
       }
     },
 
     async logIn(context, { email, password }) {
       const response = await signInWithEmailAndPassword(auth, email, password);
-    //   console.log(response.user);  /* содержимое экземпляра user */
+      //   console.log(response.user);  /* содержимое экземпляра user */
       if (response) {
         context.commit("SET_USER", response.user);
       } else {
@@ -75,9 +74,15 @@ export default {
       }
     },
 
+    // getUid() {
+    //   const user = auth.currentUser;
+    //   return user.uid;
+    // },
+
     async logOut(context) {
       await signOut(auth);
       context.commit("SET_USER", null);
+      context.commit("clearInfo");
     },
 
     async fetchUser(context, user) {

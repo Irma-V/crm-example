@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import auth from "./auth";
+import info from "./info";
 
 const store = createStore({
   state: {
@@ -15,12 +16,13 @@ const store = createStore({
       state.error = error;
     },
     clrError(state) {
-        state.error = null
+      state.error = null;
     },
   },
 
   modules: {
     auth,
+    info,
   },
 });
 
