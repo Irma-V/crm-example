@@ -13,7 +13,9 @@
                 <li>
                     <a ref="dropdown" class="dropdown-trigger black-text" href="#" data-target="dropdown">
                         <!-- USER NAME  -->
-                        {{ userName }}
+                        <!-- {{ userName }} -->
+                        {{ getName }}
+                        
                         <i class="material-icons right">arrow_drop_down</i>
                     </a>
 
@@ -68,15 +70,17 @@ export default {
         auth.onAuthStateChanged(async (user) => {
             await store.dispatch("fetchUser", user);
             console.log(user); /* содержимое экземпляра user, полученного при успешной авторизации*/
-            // this.userName = user.displayName
+            this.userName = user.displayName
         });
+
     },
+
     computed: {
         getName() {
-            let f =  store.getters.info.name
-            console.log(f);
+            return store.getters.info.userName
         }
     },
+
     methods: {
         async logout() {
             await store.dispatch('logOut')

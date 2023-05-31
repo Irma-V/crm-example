@@ -21,26 +21,20 @@ export default {
   },
   actions: {
     async fetchInfo(context) {
-        console.log(111111, auth);
-
       try {
-        // const uid = auth.currentUser.uid;
         onAuthStateChanged(auth, (user) => {
-            console.log(22222, user, user.uid)
-            if (user) {
-              // User is signed in, see docs for a list of available properties
-              // https://firebase.google.com/docs/reference/js/auth.user
-              const uid = user.uid;
-            const info = ref(database, `users/${uid}/info`)
+          if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/auth.user
+            const uid = user.uid;
+            const info = ref(database, `users/${uid}/info`);
             onValue(info, (snapshot) => {
-                const data = snapshot.val();
-                console.log(data)
-                // updateStarCount(postElement, data);
-                context.commit('setInfo', data)
+              const data = snapshot.val();
+            //   console.log(data);
+              context.commit("setInfo", data);
             });
-            }
-          })
-        
+          }
+        });
       } catch (error) {
         throw error;
       }

@@ -4,6 +4,8 @@ import router from "./router";
 import store from "./store";
 import "materialize-css/dist/js/materialize.min";
 // import dateFilter from "./filters/date.filter";
+import Loader from '@/components/app/Loader';
+
 import messagePlugin from "@/utils/message.plugin";
 
 import { initializeApp } from "firebase/app";
@@ -22,7 +24,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-createApp(App).use(store).use(router).use(messagePlugin).mount("#app");
+createApp(App).use(store).use(router).use(messagePlugin).component('Loader', Loader).mount("#app");
 
 const auth = getAuth();
 export { app, database, auth };

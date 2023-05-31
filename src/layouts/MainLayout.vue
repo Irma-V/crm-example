@@ -57,6 +57,6 @@ export default {
             // console.log(this.isOpen);
             return this.isOpen
         }
-    }
+    },
 }
 </script>
