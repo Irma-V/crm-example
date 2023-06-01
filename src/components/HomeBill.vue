@@ -6,8 +6,8 @@
 
                 <p v-for="item in currencies" :key="item" class="currency-line">
                     <span>
-                        <!-- 12.0 Р -->
-                        {{ getCurrency }}
+                        {{ Math.floor(base * rates[item.currency]) }} {{ item.symbol }} <br>
+                        <!-- {{ this.jopa(item.currency) }} -->
                     </span>
                 </p>
             </div>
@@ -24,21 +24,32 @@ export default {
     props: ['rates'],
     data() {
         return {
-            currencies: ['USD', 'EUR', 'RUB'],
+            currencies: [
+                {
+                    currency: 'RUB',
+                    symbol: '₽'
+                },
+                {
+                    currency: 'USD',
+                    symbol: '$'
+                },
+                {
+                    currency: 'EUR',
+                    symbol: '€'
+                }
+            ],
         }
     },
     computed: {
         base() {
-            console.log(store.getters.info.bill);
+            // console.log(store.getters.info.bill);
             return store.getters.info.bill / (this.rates['RUB'] / this.rates['EUR'])
         },
     },
     methoods: {
-        getCurrency(currency) {
-            // console.log(this.base);
-            // console.log(this.rates);
-            return Math.floor(this.base * this.rates[currency])
-        }
+        // jopa(arg) {
+        //     return Math.floor(base * this.rates[arg])
+        // }
     }
 }
 </script>

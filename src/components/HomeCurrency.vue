@@ -15,10 +15,10 @@
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>руб</td>
-                            <td>12121</td>
-                            <td>12.12.12</td>
+                        <tr v-for=" item in currencies" :key="item">
+                            <td>{{ item.currency }}</td>
+                            <td>{{ rates[item.currency].toFixed(3) }}</td>
+                            <td>{{ date }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -31,10 +31,23 @@
 export default {
     name: "HomeCurrency",
     components: {},
-    props: {},
+    props: ['rates', 'date'],
     data() {
         return {
-
+            currencies: [
+                {
+                    currency: 'RUB',
+                    symbol: '₽'
+                },
+                {
+                    currency: 'USD',
+                    symbol: '$'
+                },
+                {
+                    currency: 'EUR',
+                    symbol: '€'
+                }
+            ],
         }
     },
 }
