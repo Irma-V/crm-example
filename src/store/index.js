@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import auth from "./auth";
 import info from "./info";
+import category from './category'
 
 const store = createStore({
   state: {
@@ -21,17 +22,20 @@ const store = createStore({
   },
   actions: {
     async fetchCurrency() {
-      const key = process.env.VUE_APP_FIXER;
-      return await fetch(
-        `http://data.fixer.io/api/latest?access_key=${key}&symbols=USD,EUR,RUB`
-      ).then((res) => {
-        return res.json();
-      });
+        console.log('получение данных с сервера');
+        /* раскомментить при необходимости  */
+    //   const key = process.env.VUE_APP_FIXER;
+    //   return await fetch(
+    //     `http://data.fixer.io/api/latest?access_key=${key}&symbols=USD,EUR,RUB`
+    //   ).then((res) => {
+    //     return res.json();
+    //   });
     },
   },
   modules: {
     auth,
     info,
+    category,
   },
 });
 

@@ -32,25 +32,41 @@ export default {
     },
     data() {
         return {
+            date: new Date,
             loading: true,
             currency: null,
         }
     },
     mounted() {
-        // this.currency = await store.dispatch('fetchCurrency')
-        // console.log(this.currency);
-        // this.loading = false
+        this.date = this.date.getDate() + '.0' + (this.date.getMonth() + 1) + '.' + this.date.getFullYear()
         this.getData()
     },
     methods: {
-        async getData() {
-            this.currency = await store.dispatch('fetchCurrency')
+        getData() {
+            setTimeout(() => {
+                this.currency = {
+                    base: "EUR",
+                    date: this.date,
+                    rates: {
+                        USD: 1.07704,
+                        EUR: 1,
+                        RUB: 87.018408
+                    },
+                    success: true,
+                    timestamp: 1685700602
+                }
+            }, 1000)
+
+            // this.currency = await store.dispatch('fetchCurrency')
             console.log(this.currency);
             this.loading = false
         },
         refresh() {
             this.loading = true
-            this.getData()
+            setTimeout(() => {
+                this.getData()
+            }, 1000);
+            // this.getData()   
         },
     }
 }

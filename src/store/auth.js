@@ -74,10 +74,10 @@ export default {
       }
     },
 
-    // getUid() {
-    //   const user = auth.currentUser;
-    //   return user.uid;
-    // },
+    getUid() {
+      const user = auth.currentUser;
+      return user.uid;
+    },
 
     async logOut(context) {
       await signOut(auth);
