@@ -48,9 +48,9 @@ export default {
                     base: "EUR",
                     date: this.date,
                     rates: {
-                        USD: 1.07704,
+                        USD: 1.067977,
                         EUR: 1,
-                        RUB: 87.018408
+                        RUB: 87.121592
                     },
                     success: true,
                     timestamp: 1685700602
@@ -58,7 +58,7 @@ export default {
             }, 1000)
 
             // this.currency = await store.dispatch('fetchCurrency')
-            console.log(this.currency);
+            // console.log(this.currency);
             this.loading = false
         },
         refresh() {

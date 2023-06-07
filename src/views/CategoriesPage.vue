@@ -6,10 +6,18 @@
         <section>
             <!-- <Loader v-if="loading"/> -->
             <div class="row">
-                <CategoryCreate @created="addNewCategory"/>
-                <CategoryEdit/>
+                <CategoryCreate @created="addNewCategory" />
+                <CategoryEdit :categories="getCategories" />
             </div>
         </section>
+
+        <!-- <div class="jopa">
+            {{ getCategories }}
+        </div> -->
+
+        <!-- <div v-for="item in getCategories" :key="item" class="jopa">
+            {{ item }}
+        </div> -->
     </div>
 </template>
 
@@ -22,10 +30,10 @@ import Loader from '@/components/app/Loader.vue';
 export default {
     name: "CategoriesPage",
     components: {
-    CategoryCreate,
-    CategoryEdit,
-    Loader
-},
+        CategoryCreate,
+        CategoryEdit,
+        Loader
+    },
     props: {},
     data() {
         return {
@@ -34,15 +42,28 @@ export default {
         }
     },
     async mounted() {
+        // this.getCategories
         this.categories = await store.dispatch('fetchCategories')
-        // console.log(this.categories);
-
     },
-    methods: {
-        addNewCategory(newCategory) {
-            this.categories.push(newCategory)
-            console.log(this.categories);
+    computed: {
+        getCategories() {
+            // this.categories = store.getters.categories
+            // return this.categories
+            return store.getters.categories
         },
     },
+    methods: {
+        // async getCategories() {
+        //     return await store.dispatch('fetchCategories')
+        // },
+
+        addNewCategory(newCategory) {
+            this.categories.push(newCategory)
+            // console.log(this.categories);
+        },
+
+
+    },
+
 }
 </script>

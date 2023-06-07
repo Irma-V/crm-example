@@ -69,7 +69,7 @@ export default {
 
         auth.onAuthStateChanged(async (user) => {
             await store.dispatch("fetchUser", user);
-            console.log(user); /* содержимое экземпляра user, полученного при успешной авторизации*/
+            // console.log(user); /* содержимое экземпляра user, полученного при успешной авторизации*/
             this.userName = user.displayName
         });
 
@@ -96,7 +96,7 @@ export default {
         clearInterval(this.interval)
 
         if (this.dropdown && this.dropdown.destroy) {
-            this.dropdown.destroy
+            this.dropdown.destroy()
         }
     },
 }

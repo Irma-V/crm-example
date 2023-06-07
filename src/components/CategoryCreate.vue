@@ -74,8 +74,8 @@ export default {
                 this.title='',
                 this.limit = 100
                 this.v$.$reset()
-                this.$message(`Категория ${category.title} создана`)
                 this.$emit('created', category)
+                this.$message(`Категория ${category.title} создана`)
             } catch (error) {}
         },
     }
