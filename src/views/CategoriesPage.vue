@@ -4,16 +4,16 @@
             <h3>Категории</h3>
         </div>
         <section>
-            <!-- <Loader v-if="loading"/> -->
-            <div class="row">
+            <Loader v-if="loading"/>
+            <div v-else class="row">
                 <CategoryCreate @created="addNewCategory" />
-                <CategoryEdit :categories="getCategories" />
+                <CategoryEdit :categories="categories" @updated="updateCategories" />
             </div>
         </section>
 
-        <!-- <div class="jopa">
-            {{ getCategories }}
-        </div> -->
+        <div class="jopa">
+            {{ categories }}
+        </div>
 
         <!-- <div v-for="item in getCategories" :key="item" class="jopa">
             {{ item }}
@@ -41,28 +41,33 @@ export default {
             loading: true,
         }
     },
-    async mounted() {
-        // this.getCategories
-        this.categories = await store.dispatch('fetchCategories')
+    mounted() {
+        this.loading = true
+        store.dispatch('fetchCategories')
+            .then(() => {
+                this.categories = store.getters.categories
+            }).catch((error) => {
+                console.log(error);
+            }).finally(() => {
+                this.loading = false
+            })
     },
     computed: {
         getCategories() {
-            // this.categories = store.getters.categories
-            // return this.categories
             return store.getters.categories
         },
     },
     methods: {
-        // async getCategories() {
-        //     return await store.dispatch('fetchCategories')
-        // },
-
         addNewCategory(newCategory) {
             this.categories.push(newCategory)
-            // console.log(this.categories);
         },
 
-
+        updateCategories(category) {
+            // const categories = this.getCategories
+            const index = this.categories.findIndex(item => item.id === category.id)
+            categories[index].title = category.title
+            categories[index].limit = category.limit
+        },
     },
 
 }

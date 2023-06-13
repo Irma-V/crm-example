@@ -43,7 +43,6 @@
 import store from '@/store'
 import { useVuelidate } from '@vuelidate/core'
 import { required, minValue } from '@vuelidate/validators'
-import { update } from 'firebase/database'
 
 export default {
     name: "CategoryEdit",
@@ -58,7 +57,8 @@ export default {
         return {
             select: null,
             title: '',
-            limit: 100,
+            limit: 0,
+            id: '',
             current: null,
         }
     },
@@ -74,22 +74,23 @@ export default {
         }
     },
 
-    // created() {
-    //     // const { id, title, limit } = this.categories[0]
-    //     // this.current = id
-    //     // this.title = title
-    //     // this.limit = limit
+    created() {
+        //     // const { id, title, limit } = this.categories[0]
+        //     // this.current = id
+        //     // this.title = title
+        //     // this.limit = limit
+        console.log(this.categories[0]);
+        this.current = this.categories[0].id
+        this.id = this.categories[0].id
+        this.limit = this.categories[0].limit
+        this.title = this.categories[0].title
+    },
 
-    //     console.log(this.categories[0]);
-    //     // this.current = this.categories[0].id
-    //     // this.limit = this.categories[0].limit
-    //     // this.title = this.categories[0].title
-
-    // },
     mounted() {
         M.updateTextFields()
         this.select = M.FormSelect.init(this.$refs.select)
-        console.log(this.categories);
+        // console.log(this.categories);
+
     },
     methods: {
         async submitHandler() {
@@ -97,15 +98,18 @@ export default {
                 this.v$.$touch()
                 return
             }
-            const formData = {
-                id: this.id,
+            // console.log(this.current);
+            const categoryData = {
+                id: this.current,
                 title: this.title,
                 limit: this.limit
             }
             try {
-                await store.dispatch('updateCategory',formData)
-            } catch (error) {}
-         },
+                await store.dispatch('updateCategory', categoryData)
+                this.$message('Категория обновлена')
+                this.$emit('updated', categoryData)
+            } catch (error) { }
+        },
     },
     watch: {
         current(value) {

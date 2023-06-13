@@ -1,5 +1,5 @@
 import { auth, database } from "@/main";
-import { onValue, push, ref, update } from "firebase/database";
+import { onValue, push, ref, child, update, set } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default {
@@ -35,11 +35,10 @@ export default {
       }
     },
 
-    async updateCategory(context,{ title, limit, id}) {
+    async updateCategory(context, { id, title, limit }) {
       try {
         const uid = await context.dispatch("getUid");
-        const category = push(ref(database, `users/${uid}/categories`)).key;
-        update(ref(database, `users/${uid}/categories/${category.key}`), {
+        update(child(ref(database, `users/${uid}/categories/`), `${id}`), {
           title,
           limit,
         });
@@ -49,45 +48,52 @@ export default {
       }
     },
 
-    async fetchCategories(context) {
-      try {
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            const uid = user.uid;
-            const categories = ref(database, `users/${uid}/categories`);
-            onValue(categories, (snapshot) => {
-              const data = snapshot.val() || {};
-              let fData = Object.keys(data).map((key) => ({
-                ...data[key],
-                id: key,
-              }));
-              context.commit("setCategories", fData);
-            });
-          }
-        });
-        // const uid = await context.dispatch("getUid");
-        // const dbWay = ref(database, `users/${uid}/categories`);
-        // onValue(dbWay, (snapshot) => {
-        //   const data = snapshot.val() || {};
-        //   // console.log(data);
+    //     // const uid = await context.dispatch("getUid");
+    //     // const dbWay = ref(database, `users/${uid}/categories`);
+    //     // onValue(dbWay, (snapshot) => {
+    //     //   const data = snapshot.val() || {};
+    //     //   // console.log(data);
 
-        //   /* // let categories = [];
-        //   // Object.keys(data).forEach((key) => {
-        //   //   categories.push({
-        //   //     title: data[key].title,
-        //   //     limit: data[key].limit,
-        //   //     id: key,
-        //   //   });
-        //   // });
-        //   // console.log(categories);
-        //   // return categories; */
-        //   //   console.log(Object.keys(data).map((key) => ({ ...data[key], id: key })));
-        //   return Object.keys(data).map((key) => ({ ...data[key], id: key }));
-        // });
-      } catch (error) {
-        context.commit("setError", error);
-        throw error;
-      }
+    //     //   /* // let categories = [];
+    //     //   // Object.keys(data).forEach((key) => {
+    //     //   //   categories.push({
+    //     //   //     title: data[key].title,
+    //     //   //     limit: data[key].limit,
+    //     //   //     id: key,
+    //     //   //   });
+    //     //   // });
+    //     //   // console.log(categories);
+    //     //   // return categories; */
+    //     //   //   console.log(Object.keys(data).map((key) => ({ ...data[key], id: key })));
+    //     //   return Object.keys(data).map((key) => ({ ...data[key], id: key }));
+    //     // });
+
+    async fetchCategories(context) {
+      return new Promise((resolve, reject) => {
+        try {
+          onAuthStateChanged(auth, (user) => {
+            if (user) {
+              const uid = user.uid;
+              const categories = ref(database, `users/${uid}/categories`);
+              onValue(categories, (snapshot) => {
+                const data = snapshot.val() || {};
+                let fData = Object.keys(data).map((key) => ({
+                  ...data[key],
+                  id: key,
+                }));
+                context.commit("setCategories", fData);
+                return resolve(fData);
+              });
+            } else {
+              return reject("Пользователь не найден");
+            }
+          });
+        } catch (error) {
+          context.commit("setError", error);
+          return reject(error);
+          throw error
+        }
+      });
     },
   },
 };

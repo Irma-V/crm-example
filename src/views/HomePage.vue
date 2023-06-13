@@ -63,10 +63,11 @@ export default {
         },
         refresh() {
             this.loading = true
-            setTimeout(() => {
-                this.getData()
-            }, 1000);
-            // this.getData()   
+            this.getData()   
+            
+            // setTimeout(() => {
+                // this.getData()
+            // }, 1000);
         },
     }
 }

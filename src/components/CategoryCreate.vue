@@ -64,12 +64,12 @@ export default {
                 this.v$.$touch()
                 return
             }
-            const formData = {
+            const categoryData = {
                 title: this.title,
                 limit: this.limit
             }
             try {
-                const category = await store.dispatch('createCategory', formData)
+                const category = await store.dispatch('createCategory', categoryData)
                 // console.log(category);
                 this.title='',
                 this.limit = 100
