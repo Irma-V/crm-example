@@ -4,16 +4,22 @@
             <h3>Категории</h3>
         </div>
         <section>
-            <Loader v-if="loading"/>
+            <Loader v-if="loading || !getCategories" />
             <div v-else class="row">
                 <CategoryCreate @created="addNewCategory" />
-                <CategoryEdit :categories="categories" @updated="updateCategories" />
+                <CategoryEdit v-if="categories.length" :key="categories.length + updateCount" :categories="categories"
+                    @updated="updateCategories" />
+
+                <div v-else class="col s12 m6">
+                    <p class="no-categories center flow-text teal-text">Категорий пока нет</p>
+                </div>
+
             </div>
         </section>
 
-        <div class="jopa">
-            {{ categories }}
-        </div>
+        <!-- <div v-for="item in categories" :key="item" class="jopa">
+            {{ item }}
+        </div> -->
 
         <!-- <div v-for="item in getCategories" :key="item" class="jopa">
             {{ item }}
@@ -26,6 +32,9 @@ import store from '@/store'
 import CategoryCreate from '@/components/CategoryCreate.vue';
 import CategoryEdit from '@/components/CategoryEdit.vue';
 import Loader from '@/components/app/Loader.vue';
+import { useVuelidate } from '@vuelidate/core'
+import { required, minValue } from '@vuelidate/validators'
+
 
 export default {
     name: "CategoriesPage",
@@ -39,10 +48,21 @@ export default {
         return {
             categories: [],
             loading: true,
+            updateCount: 0,
         }
     },
+
+    setup() {
+        return { v$: useVuelidate() }
+    },
+    validations() {
+        return {
+            title: { required },
+            limit: { minValue: minValue(100) }
+        }
+    },
+
     mounted() {
-        this.loading = true
         store.dispatch('fetchCategories')
             .then(() => {
                 this.categories = store.getters.categories
@@ -63,12 +83,24 @@ export default {
         },
 
         updateCategories(category) {
+            console.log(category);
+            // this.loading = true
             // const categories = this.getCategories
+            console.log(this.categories.findIndex(item => item.id === category.id));
             const index = this.categories.findIndex(item => item.id === category.id)
-            categories[index].title = category.title
-            categories[index].limit = category.limit
+            this.categories[index].title = category.title
+            this.categories[index].limit = category.limit
+            this.updateCount++
         },
     },
 
 }
 </script>
+
+<style scoped lang="scss">
+.col {
+    .no-categories {
+        padding: 20%;
+    }
+}
+</style>

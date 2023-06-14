@@ -4,38 +4,59 @@
             <h3>Новая запись</h3>
         </div>
 
-        <form class="form">
+        <Loader v-if="loading || !categories" />
+
+        <p v-else-if="!categories.length" class="no-categories center flow-text teal-text">
+            Категорий пока нет.
+            <router-link to='/categories' class=" orange-text">
+                Нажмите сюда для перехода в "Категории"!
+            </router-link>
+        </p>
+
+        <form v-else class="form" @submit.prevent="submitHandler">
             <div class="input-field">
-                <select>
-                    <option>name cat</option>
+                <select ref="select" v-model="category">
+                    <option v-for="item in categories" :key="item.id" :value="item.id">
+                        {{ item.title }}
+                    </option>
                 </select>
                 <label>Выберите категорию</label>
             </div>
 
+            <!-- <div v-for="item in categories" :key="item" class="jopa">
+                {{ item }}
+            </div> -->
+
             <p>
                 <label>
-                    <input class="with-gap" name="type" type="radio" value="income">
+                    <input class="with-gap" name="type" type="radio" value="income" v-model="type">
                     <span>Доход</span>
                 </label>
             </p>
 
             <p>
                 <label>
-                    <input class="with-gap" name="type" type="radio" value="outcome">
+                    <input class="with-gap" name="type" type="radio" value="outcome" v-model="type">
                     <span>Расход</span>
                 </label>
             </p>
 
             <div class="input-field">
-                <input id="amount" type="number">
+                <input id="amount" type="number" v-model.number="amount"
+                    :class="{ invalid: v$.amount.$dirty && v$.amount.$invalid }">
                 <label for="amount">Сумма</label>
-                <span class="helper-text invalid">amount пароль</span>
+                <span v-if="v$.amount.$dirty && v$.amount.$invalid" class="helper-text invalid">
+                    Значение не должно быть меньше минимальной величины, равной {{ v$.amount.minValue.$params.min }}
+                </span>
             </div>
 
             <div class="input-field">
-                <input id="description" type="text">
+                <input id="description" type="text" v-model="description"
+                    :class="{ invalid: v$.description.$dirty && v$.description.$invalid }">
                 <label for="description">Описание</label>
-                <span class="helper-text invalid">description пароль</span>
+                <span v-if="v$.description.$dirty && v$.description.$invalid" class="helper-text invalid">
+                    Введите описание
+                </span>
             </div>
 
             <button class="btn waves-effect waves-light" type="submit">
@@ -47,13 +68,71 @@
 </template>
 
 <script>
+import Loader from '@/components/app/Loader.vue';
+import store from '@/store';
+import { useVuelidate } from '@vuelidate/core'
+import { required, minValue } from '@vuelidate/validators'
+
 export default {
     name: "RecordPage",
-    components: {},
+    components: { Loader },
     props: {},
     data() {
         return {
+            select: null,
+            loading: true,
+            categories: [],
+            category: null,
+            type: 'outcome',
+            amount: 1,
+            description: '',
+        }
+    },
+    setup() {
+        return { v$: useVuelidate() }
+    },
 
+    validations() {
+        return {
+            amount: { minValue: minValue(1) },
+            description: { required },
+        }
+    },
+
+    async mounted() {
+
+        await store.dispatch('fetchCategories')
+            .then(() => {
+                this.categories = store.getters.categories
+            }).catch((error) => {
+                console.log(error);
+            }).finally(() => {
+                this.loading = false
+            })
+
+        if (this.categories.length) {
+            this.category = this.categories[0].id
+        }
+
+        setTimeout(() => {
+            this.select = M.FormSelect.init(this.$refs.select)
+            M.updateTextFields()
+        }, 0)
+    },
+
+    methods: {
+        submitHandler() {
+            console.log('submitHandler');
+            if (this.v$.$invalid) {
+                this.v$.$touch()
+                return
+            }
+        },
+    },
+
+    beforeUnmount() {
+        if (this.select && this.select.destroy) {
+            this.select.destroy()
         }
     },
 }

@@ -32,7 +32,7 @@
                 <label>
                     <input type="checkbox" v-model="agree">
                     <span>С <router-link :to="{ name: 'userAgreementPage' }" target="_blank"
-                            class="lighten-2">правилами</router-link> согласен</span>
+                            class="lighten-2 orange-text">правилами</router-link> согласен</span>
                 </label>
             </p>
         </div>

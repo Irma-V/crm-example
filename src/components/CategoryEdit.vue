@@ -79,7 +79,8 @@ export default {
         //     // this.current = id
         //     // this.title = title
         //     // this.limit = limit
-        console.log(this.categories[0]);
+
+        // console.log(this.categories[0]);
         this.current = this.categories[0].id
         this.id = this.categories[0].id
         this.limit = this.categories[0].limit
@@ -89,7 +90,7 @@ export default {
     mounted() {
         M.updateTextFields()
         this.select = M.FormSelect.init(this.$refs.select)
-        // console.log(this.categories);
+        // console.log( '???', this.categories);
 
     },
     methods: {
@@ -108,6 +109,7 @@ export default {
                 await store.dispatch('updateCategory', categoryData)
                 this.$message('Категория обновлена')
                 this.$emit('updated', categoryData)
+                // console.log('1111', this.categories);
             } catch (error) { }
         },
     },

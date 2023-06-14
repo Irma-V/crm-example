@@ -8,7 +8,7 @@
             </button>
         </div>
 
-        <Loader v-if="loading" />
+        <Loader v-if="loading || !currency" />
 
         <div v-else class="row">
             <HomeBill :rates="currency.rates" />
@@ -63,11 +63,12 @@ export default {
         },
         refresh() {
             this.loading = true
-            this.getData()   
+            console.log('refresh');
+            // this.getData()   
             
-            // setTimeout(() => {
-                // this.getData()
-            // }, 1000);
+            setTimeout(() => {
+                this.getData()
+            }, 1000);
         },
     }
 }
