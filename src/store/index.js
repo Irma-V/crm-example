@@ -2,7 +2,7 @@ import { createStore } from "vuex";
 import auth from "./auth";
 import info from "./info";
 import category from './category'
-
+import record from "./record";
 const store = createStore({
   state: {
     error: null,
@@ -36,6 +36,7 @@ const store = createStore({
     auth,
     info,
     category,
+    record,
   },
 });
 

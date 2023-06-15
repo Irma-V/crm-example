@@ -69,9 +69,12 @@
 
 <script>
 import Loader from '@/components/app/Loader.vue';
-import store from '@/store';
+
 import { useVuelidate } from '@vuelidate/core'
 import { required, minValue } from '@vuelidate/validators'
+
+import store from '@/store';
+import { mapGetters } from 'vuex';
 
 export default {
     name: "RecordPage",
@@ -119,13 +122,45 @@ export default {
             M.updateTextFields()
         }, 0)
     },
-
+    computed: {
+        ...mapGetters(['info']),
+        canCreateRecord() {
+            if (this.type === 'income') {
+                return true
+            }
+            return this.info.bill >= this.amount
+        },
+    },
     methods: {
-        submitHandler() {
+        async submitHandler() {
             console.log('submitHandler');
             if (this.v$.$invalid) {
                 this.v$.$touch()
                 return
+            }
+            const recordData = {
+                categoryId: this.category,
+                amount: this.amount,
+                description: this.description,
+                type: this.type,
+                date: new Date().toJSON()
+            }
+
+            if (this.canCreateRecord) {
+                try {
+                    await store.dispatch('createRecord', recordData)
+                    const bill = this.type === 'income' ? this.info.bill + this.amount : this.info.bill - this.amount
+                    await store.dispatch('updateInfo', { bill })
+                    this.$message('Запись успешно создана')
+                    this.v$.$reset()
+                    this.amount = 1
+                    this.description = ''
+                } catch (error) { 
+                    console.log(error);
+                }
+
+            } else {
+                this.$error(`Недостаточно средств на счете! Заявленная сумма превышает ${this.amount - this.info.bill} руб.`)
             }
         },
     },

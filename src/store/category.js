@@ -1,5 +1,5 @@
 import { auth, database } from "@/main";
-import { onValue, push, ref, child, update, set } from "firebase/database";
+import { onValue, push, ref, child, update } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default {
@@ -23,8 +23,8 @@ export default {
     async createCategory(context, { title, limit }) {
       try {
         const uid = await context.dispatch("getUid");
-        const category = push(ref(database, `users/${uid}/categories`));
-        update(ref(database, `users/${uid}/categories/${category.key}`), {
+        const newCategory = push(ref(database, `users/${uid}/categories`));
+        update(ref(database, `users/${uid}/categories/${newCategory.key}`), {
           title,
           limit,
         });
