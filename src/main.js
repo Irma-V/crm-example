@@ -12,6 +12,8 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 
+import tooltipDirective  from "@/directives/tooltip.directive";
+
 const firebaseConfig = {
     apiKey: "AIzaSyAITusZAn6_V_yz_UlNf3SNmnwNFWBRLD8",
     authDomain: "crm-example-67f6a.firebaseapp.com",
@@ -24,7 +26,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-createApp(App).use(store).use(router).use(messagePlugin).component('Loader', Loader).mount("#app");
+createApp(App)
+.use(store)
+.use(router)
+.use(messagePlugin)
+.directive('tooltip', tooltipDirective)
+.component('Loader', Loader)
+.mount("#app");
 
 const auth = getAuth();
 export { app, database, auth };
