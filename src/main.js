@@ -7,12 +7,11 @@ import "materialize-css/dist/js/materialize.min";
 import Loader from '@/components/app/Loader';
 
 import messagePlugin from "@/utils/message.plugin";
+import tooltip from "@/directives/tooltip.directive";
 
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-
-import tooltipDirective  from "@/directives/tooltip.directive";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAITusZAn6_V_yz_UlNf3SNmnwNFWBRLD8",
@@ -30,7 +29,7 @@ createApp(App)
 .use(store)
 .use(router)
 .use(messagePlugin)
-.directive('tooltip', tooltipDirective)
+.directive('tooltip', tooltip)
 .component('Loader', Loader)
 .mount("#app");
 

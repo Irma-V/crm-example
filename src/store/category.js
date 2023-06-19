@@ -28,7 +28,7 @@ export default {
           title,
           limit,
         });
-        return { title, limit, id: category.key };
+        return { title, limit, id: newCategory.key };
       } catch (error) {
         context.commit("setError", error);
         throw error;

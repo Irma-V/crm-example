@@ -4,7 +4,7 @@
             <h3>Категории</h3>
         </div>
         <section>
-            <Loader v-if="loading || !getCategories" />
+            <Loader v-if="loading || !categories" />
             <div v-else class="row">
                 <CategoryCreate @created="addNewCategory" />
                 <CategoryEdit v-if="categories.length" :key="categories.length + updateCount" :categories="categories"

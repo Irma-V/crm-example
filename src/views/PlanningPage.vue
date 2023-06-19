@@ -1,9 +1,10 @@
 <template>
     <div>
-        <div class="page-title">
+        <div class="page-title" v-if="info.bill">
             <h3>Планирование</h3>
-            <h4>{{ info.bill.toFixed(2) }}</h4>
+            <h4>{{ info.bill.toFixed(2) }} ₽</h4>
         </div>
+        <Loader v-else/>
 
         <Loader v-if="loading || !categories" />
 
@@ -20,7 +21,7 @@
                     <strong> {{ item.title }} :</strong>
                     {{ item.spend }} ₽ из {{ item.limit }} ₽
                 </p>
-                <div class="progress" v-tooltip="'Test'">
+                <div class="progress" v-tooltip="'jfkjg'">
                     <div class="determinate" :class="[item.progressColor]" :style="{ width: item.progressPercent+'%'}"></div>
                 </div>
             </div>
@@ -31,7 +32,7 @@
 <script>
 import Loader from '@/components/app/Loader.vue';
 import store from '@/store';
-import info from '@/store/info';
+// import info from '@/store/info';
 import { mapGetters } from 'vuex';
 
 

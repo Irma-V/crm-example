@@ -47,7 +47,8 @@ export default {
         if (messages[this.$route.query.message]) {
             this.$message(messages[this.$route.query.message])
         }
-        if (!Object.keys(store.getters.info).length) {
+        // if (!Object.keys(store.getters.info).length) {
+        if (store.getters.infoIsEmpty) {
             await store.dispatch('fetchInfo')
         }
     },

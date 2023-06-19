@@ -10,6 +10,10 @@ export default {
     info(state) {
       return state.info;
     },
+    // пустое ли info
+    infoIsEmpty(state) {
+        return Object.keys(state.info).length <= 0
+    }
   },
   mutations: {
     setInfo(state, info) {
