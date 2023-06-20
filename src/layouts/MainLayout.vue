@@ -59,5 +59,17 @@ export default {
             return this.isOpen
         }
     },
+    
+    computed: {
+        error(){
+            return store.getters.error
+        }
+    },
+    watch: {
+        error(fbError) {
+            console.log(fbError); /* содержимое ошибки попадает из ветки catch каждого метода, вызываемого из store в компонентах vue */
+            this.$error(messages[fbError])
+        }
+    }
 }
 </script>

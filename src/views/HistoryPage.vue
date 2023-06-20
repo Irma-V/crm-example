@@ -8,48 +8,59 @@
             <canvas></canvas>
         </div>
 
-        <section>
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Сумма</th>
-                        <th>Дата</th>
-                        <th>Категория</th>
-                        <th>Тип</th>
-                        <th>Открыть</th>
-                    </tr>
-                </thead>
+        <Loader v-if="loading || !records" />
 
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>1212</td>
-                        <td>12.12.32</td>
-                        <td>name</td>
-                        <td>
-                            <span class="white-text badge red">Расход</span>
-                        </td>
-                        <td>
-                            <router-link :to="{ name: 'detail-record' }">
-                                <button class="btn-small btn">
-                                    <i class="material-icons">open_in_new</i>
-                                </button>
-                            </router-link>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <p v-else-if="!records.length" class="no-categories center flow-text teal-text">
+            Записей пока нет.
+            <router-link to='/record' class=" orange-text">
+                Нажмите сюда для создания первой записи!
+            </router-link>
+        </p>
+
+        <section v-else>
+            <HistoryTable :records="records" />
         </section>
     </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import HistoryTable from "@/components/HistoryTable.vue";
+import Loader from "@/components/app/Loader.vue";
+import store from "@/store";
 
 export default {
     name: 'HistoryPage',
     components: {
-    }
+    HistoryTable,
+    Loader
+},
+    data() {
+        return {
+            loading: true,
+            records: [],
+            categories: [],
+        }
+    },
+    async mounted() {
+        // this.records = await store.dispatch('fetchRecords')
+        const records = await store.dispatch('fetchRecords')
+        this.categories = await store.dispatch('fetchCategories')
+        this.records = records.map(record => {
+            return {
+                ...record,
+                categoryName: this.categories.find(categ => categ.id === record.categoryId).title, //имя категории
+                typeColor: record.type === 'income' ? 'green' : 'red',
+                typeText: record.type === 'income' ? 'Доход' : 'Расход',
+
+            }
+        })
+        this.loading = false
+        console.log("this.records: ", this.records);
+        console.log("records: ", records );
+        console.log("this.categories: ", this.categories);
+    },
+    methods: {
+
+    },
 }
 </script>

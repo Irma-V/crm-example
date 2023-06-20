@@ -2,7 +2,12 @@
     <div>
         <div>
             <div class="breadcrumb-wrap">
-                <a href="/history" class="breadcrumb">История</a>
+                <router-link :to="{ name: 'history' }">
+                    <!-- <a href="/history" class="breadcrumb"> -->
+                    <!-- </a> -->
+                    История
+                </router-link>
+
                 <a class="breadcrumb">
                     Расход
                 </a>

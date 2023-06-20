@@ -21,7 +21,7 @@
                     <strong> {{ item.title }} :</strong>
                     {{ item.spend }} ₽ из {{ item.limit }} ₽
                 </p>
-                <div class="progress" v-tooltip="'jfkjg'">
+                <div class="progress" v-tooltip="item.tooltip">
                     <div class="determinate" :class="[item.progressColor]" :style="{ width: item.progressPercent+'%'}"></div>
                 </div>
             </div>
@@ -32,9 +32,7 @@
 <script>
 import Loader from '@/components/app/Loader.vue';
 import store from '@/store';
-// import info from '@/store/info';
 import { mapGetters } from 'vuex';
-
 
 export default {
     name: "PlanningPage",
@@ -48,9 +46,6 @@ export default {
             categories: [],
 
         }
-    },
-    created() {
-
     },
     async mounted() {
         const records = await store.dispatch('fetchRecords')
@@ -66,15 +61,17 @@ export default {
                 return totalBill += +record.amount
             }, 0);
             // console.log(spend);
-            let percent = 100 * spend / categ.limit
-            let progressPercent = percent > 100 ? 100 : percent
-            let progressColor = (percent < 60) ? 'green' : (percent < 95) ? 'yellow darken-3' : 'red'
-
+            const percent = 100 * spend / categ.limit
+            const progressPercent = percent > 100 ? 100 : percent
+            const progressColor = (percent < 60) ? 'green' : (percent < 95) ? 'yellow darken-3' : 'red'
+            let tooltipVal = categ.limit - spend
+            const tooltip = `${tooltipVal < 0 ? 'Лимит превышен на': 'Осталось'} ${Math.abs(tooltipVal)} ₽`
             return {
                 ...categ, 
                 progressPercent,
                 progressColor,
-                spend 
+                spend,
+                tooltip 
             }
 
         })
