@@ -5,7 +5,6 @@ import store from "./store";
 import "materialize-css/dist/js/materialize.min";
 // import dateFilter from "./filters/date.filter";
 import Loader from '@/components/app/Loader';
-import Paginate from 'vuejs-paginate'
 
 import messagePlugin from "@/utils/message.plugin";
 import tooltip from "@/directives/tooltip.directive";
@@ -33,7 +32,6 @@ createApp(App)
 .use(messagePlugin)
 .directive('tooltip', tooltip)
 .component('Loader', Loader)
-.component('Paginate', Paginate)
 .mount("#app");
 
 const auth = getAuth();
