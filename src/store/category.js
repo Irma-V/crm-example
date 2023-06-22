@@ -95,5 +95,30 @@ export default {
         }
       });
     },
+
+    async fetchCategoryById(context, id) {
+        return new Promise((resolve, reject) => {
+          try {
+            onAuthStateChanged(auth, (user) => {
+              if (user) {
+                const uid = user.uid;
+                const categories = ref(database, `users/${uid}/categories`);
+                onValue(child(categories, id), (snapshot) => {
+                  const data = snapshot.val() || {};
+                  let fData = {...data, id}
+                  context.commit("setCategories", fData);
+                  return resolve(fData);
+                });
+              } else {
+                return reject("Пользователь не найден");
+              }
+            });
+          } catch (error) {
+            context.commit("setError", error);
+            return reject(error);
+            throw error
+          }
+        });
+      },
   },
 };

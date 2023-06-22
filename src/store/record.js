@@ -59,5 +59,30 @@ export default {
             }
           });
     },
+
+    async fetchRecordById(context, id) {
+        return new Promise((resolve, reject) => {
+            try {
+              onAuthStateChanged(auth, (user) => {
+                if (user) {
+                  const uid = user.uid;
+                  const records = ref(database, `users/${uid}/records`);
+                  onValue(child(records, id), (snapshot) => {
+                    const data = snapshot.val() || {};
+                    let fData = {...data, id}
+                    context.commit("setCategories", fData);
+                    return resolve(fData);
+                  });
+                } else {
+                  return reject("Пользователь не найден");
+                }
+              });
+            } catch (error) {
+              context.commit("setError", error);
+              return reject(error);
+              throw error
+            }
+          });
+    },
   },
 };

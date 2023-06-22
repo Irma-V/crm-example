@@ -75,18 +75,18 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
- let currentUser = auth.currentUser
- console.log('Кто? ', currentUser);
- let requireAuth = to.matched.some(record => record.meta.auth)
- console.log('Авторизован? ', requireAuth);
+// router.beforeEach((to, from, next) => {
+//  let currentUser = auth.currentUser
+//  console.log('Кто? ', currentUser);
+//  let requireAuth = to.matched.some(record => record.meta.auth)
+//  console.log('Авторизован? ', requireAuth);
 
 
- if (requireAuth && !currentUser) {
-    next('/login?message=login')
- } else {
-    next()
- }
-});
+//  if (requireAuth && !currentUser) {
+//     next('/login?message=login')
+//  } else {
+//     next()
+//  }
+// });
 
 export default router;

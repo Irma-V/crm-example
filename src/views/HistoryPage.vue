@@ -12,13 +12,16 @@
 
         <p v-else-if="!records.length" class="no-categories center flow-text teal-text">
             Записей пока нет.
-            <router-link to='/record' class=" orange-text">
+            <router-link to='/record' class="orange-text">
                 Нажмите сюда для создания первой записи!
             </router-link>
         </p>
 
         <section v-else>
             <HistoryTable :records="records" />
+            <Paginate :page-count="20" :click-handler="pageChangeHandler" :prev-text="'Prev'" :next-text="'Next'"
+                :container-class="'className'"
+                />
         </section>
     </div>
 </template>
@@ -31,9 +34,9 @@ import store from "@/store";
 export default {
     name: 'HistoryPage',
     components: {
-    HistoryTable,
-    Loader
-},
+        HistoryTable,
+        Loader
+    },
     data() {
         return {
             loading: true,
@@ -55,12 +58,14 @@ export default {
             }
         })
         this.loading = false
-        console.log("this.records: ", this.records);
-        console.log("records: ", records );
-        console.log("this.categories: ", this.categories);
+        // console.log("this.records: ", this.records);
+        // console.log("records: ", records);
+        // console.log("this.categories: ", this.categories);
     },
     methods: {
-
+        pageChangeHandler(){
+            console.log('pageChangeHandler');
+        }
     },
 }
 </script>
