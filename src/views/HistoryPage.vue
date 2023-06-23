@@ -18,7 +18,6 @@
         </p>
 
         <section v-else>
-            <HistoryTable :records="items" />
             <paginate 
             v-model="page"
             :page-count="pageCount" 
@@ -36,6 +35,7 @@
             :next-class="''">
 
             </paginate>
+            <HistoryTable :records="items" />
         </section>
     </div>
 </template>

@@ -35,6 +35,8 @@ createApp(App)
 .mount("#app");
 
 const auth = getAuth();
+
+
 export { app, database, auth };
 
 // const app = createApp(App);

@@ -48,9 +48,9 @@ export default {
                     base: "EUR",
                     date: this.date,
                     rates: {
-                        USD: 1.067977,
+                        USD: 1.095471,
                         EUR: 1,
-                        RUB: 87.121592
+                        RUB: 88.774224
                     },
                     success: true,
                     timestamp: 1685700602

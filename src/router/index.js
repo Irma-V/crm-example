@@ -4,6 +4,7 @@ import HomePage from "../views/HomePage.vue";
 // import CategoriesPage from "../views/CategoriesPage.vue";
 
 import { auth } from "@/main";
+import { onAuthStateChanged } from "firebase/auth";
 
 const routes = [
   //empty-layout
@@ -29,7 +30,10 @@ const routes = [
   {
     path: "/",
     name: "home",
-    meta: { layout: "main", auth: true },
+    meta: { 
+        layout: "main",
+        auth: true,
+    },
     component: HomePage,
   },
   {
@@ -75,18 +79,28 @@ const router = createRouter({
   routes,
 });
 
-// router.beforeEach((to, from, next) => {
-//  let currentUser = auth.currentUser
-//  console.log('Кто? ', currentUser);
-//  let requireAuth = to.matched.some(record => record.meta.auth)
-//  console.log('Авторизован? ', requireAuth);
+function getCurrentUser() {
+    return new Promise((resolve, reject) => {
+      const unsubscribe = onAuthStateChanged(
+        auth,
+        (user) => {
+          unsubscribe()
+          resolve(user)
+        },
+        reject
+      )
+    })
+  }
 
+router.beforeEach(async (to) => {
+    if (await getCurrentUser() && to.name === 'login') {
+        return '/'
+    }
 
-//  if (requireAuth && !currentUser) {
-//     next('/login?message=login')
-//  } else {
-//     next()
-//  }
-// });
+    const requiresAuth = to.matched.some((record) => record.meta.auth)
+    if (requiresAuth && !(await getCurrentUser())) {
+        return '/login'
+    }
+});
 
 export default router;
