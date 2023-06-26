@@ -1,39 +1,43 @@
 <template>
     <div>
-        <loader v-if="loading"/>
+        <loader v-if="loading" />
 
         <div v-else-if="record">
             <div class="breadcrumb-wrap">
-                <router-link :to="{ name: 'history' }" @click.prevent  class="breadcrumb">
+                <router-link :to="{ name: 'history' }" @click.prevent class="breadcrumb">
                     <!-- <a href="/history" class="breadcrumb"> -->
                     <!-- </a> -->
                     История
                 </router-link>
 
                 <a class="breadcrumb">
-                    {{record.typeText}}
+                    {{ record.typeText }}
                     <!-- {{ record.type === 'income' ? 'Доход' : 'Расход' }} -->
                 </a>
             </div>
             <div class="row">
                 <div class="col s12 m6">
-                    <div class="card"  :class="[record.typeColor]">
-                    <!-- <div class="card"  :class="{ 'red': record.type === 'outcome', 'green': record.type === 'income' }"> -->
-                        
-                        <div class="card-content white-text">
-                            <p>Описание: {{record.description}}</p>
-                            <p>Сумма: {{record.amount}} ₽</p>
-                            <p>Категория: {{record.categoryName}}</p>
+                    <div class="card" :class="[record.typeColor]">
+                        <!-- <div class="card"  :class="{ 'red': record.type === 'outcome', 'green': record.type === 'income' }"> -->
 
-                            <small>{{record.date}}</small>
+                        <div class="card-content white-text">
+                            <p>Описание: {{ record.description }}</p>
+                            <p>Сумма: {{ record.amount }} ₽</p>
+                            <p>Категория: {{ record.categoryName }}</p>
+
+                            <small>{{ record.date }}</small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <p class="no-categories center flow-text teal-text" v-else>
-            Записи по идентификатору {{ $route.params.id }} не существует. </p>
+        <p class="no-records center flow-text teal-text" v-else>
+            <img src="~@/assets/img/notFoundMini.webp" alt="">
+            Записи по идентификатору {{ $route.params.id }} не существует.
+
+        </p>
+
 
     </div>
 </template>

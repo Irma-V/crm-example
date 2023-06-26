@@ -15,7 +15,7 @@
             <tr v-for="(record, idx) in records" :key="record.id">
                 <td>{{ idx+1 }}</td>
                 <td>{{record.amount}} ₽</td>
-                <td>{{ record.date }}</td>
+                <td>{{ dateFilter(record.date) }}</td>
                 <td>{{ record.categoryName }}</td>
                 <td>
                     <span class="white-text badge" :class="[record.typeColor]">{{record.typeText}}</span>
@@ -52,6 +52,32 @@ export default {
         //    date = date.getDate() + '.0' + (date.getMonth() + 1) + '.' + date.getFullYear()
         //     return date
         // }
+
+        dateFilter(value) {
+            const options = {
+                /* При необходимости раскомментить нужную комбинацию формата даты*/
+
+                // day: "numeric",
+                day: "2-digit",
+
+                // month: "long",
+                // month: "numeric",
+                month: "2-digit",
+
+                year: "numeric",
+                // year: "2-digit",
+
+
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+
+                // hour: "2-digit",
+                // minute: "2-digit",
+                // second: "2-digit",
+            }
+            return new Intl.DateTimeFormat("ru-RU", options).format(new Date(value));
+        }
     }
 }
 </script>

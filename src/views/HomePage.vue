@@ -12,7 +12,7 @@
 
         <div v-else class="row">
             <HomeBill :rates="currency.rates" />
-            <HomeCurrency :rates="currency.rates" :date="currency.date" />
+            <HomeCurrency :rates="currency.rates" :date="dateFilter" />
         </div>
     </div>
 </template>
@@ -38,8 +38,35 @@ export default {
         }
     },
     mounted() {
-        this.date = this.date.getDate() + '.0' + (this.date.getMonth() + 1) + '.' + this.date.getFullYear()
+        // this.date = this.date.getDate() + '.0' + (this.date.getMonth() + 1) + '.' + this.date.getFullYear()
         this.getData()
+    },
+    computed: {
+        dateFilter() {
+            const options = {
+                /* При необходимости раскомментить нужную комбинацию формата даты*/
+
+                // day: "numeric",
+                day: "2-digit",
+
+                // month: "long",
+                // month: "numeric",
+                month: "2-digit",
+
+                year: "numeric",
+                // year: "2-digit",
+
+
+                // hour: "numeric",
+                // minute: "numeric",
+                // second: "numeric",
+
+                // hour: "2-digit",
+                // minute: "2-digit",
+                // second: "2-digit",
+            }
+            return new Intl.DateTimeFormat("ru-RU", options).format(new Date(this.date));
+        }
     },
     methods: {
         getData() {
@@ -65,7 +92,7 @@ export default {
             this.loading = true
             console.log('refresh');
             // this.getData()   
-            
+
             setTimeout(() => {
                 this.getData()
             }, 1000);

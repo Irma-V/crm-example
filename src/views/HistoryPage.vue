@@ -10,7 +10,8 @@
 
         <Loader v-if="loading || !records" />
 
-        <p v-else-if="!records.length" class="no-categories center flow-text teal-text">
+        <p v-else-if="!records.length" class="no-records center flow-text teal-text">
+            <img src="~@/assets/img/notFoundMini.webp" alt="">
             Записей пока нет.
             <router-link to='/record' class="orange-text">
                 Нажмите сюда для создания первой записи!
@@ -19,21 +20,20 @@
 
         <section v-else>
             <paginate 
-            v-model="page"
+            v-model="page" 
             :page-count="pageCount" 
-            :page-range="3" :margin-pages="2" 
+            :page-range="3" 
+            :margin-pages="2" 
             :initial-page="1"
-                
             :click-handler="pageChangeHandler" 
-            :prev-text="'«'" :next-text="'»'" 
+            :prev-text="'«'" 
+            :next-text="'»'" 
             :container-class="'pagination'"
-                
             :page-class="'waves-effect'" 
             :page-link-class="'black-text'" 
             :active-class="'blue'" 
             :prev-class="''"
             :next-class="''">
-
             </paginate>
             <HistoryTable :records="items" />
         </section>
@@ -87,7 +87,7 @@ export default {
         // console.log("this.categories: ", this.categories);
     },
     methods: {
-        
+
     },
 }
 </script>

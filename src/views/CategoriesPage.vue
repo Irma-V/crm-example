@@ -11,7 +11,10 @@
                     @updated="updateCategories" />
 
                 <div v-else class="col s12 m6">
-                    <p class="no-categories center flow-text teal-text">Категорий пока нет</p>
+                    <p class="no-categories center flow-text teal-text">
+                        <!-- <img src="~@/assets/img/notFoundMini.webp" alt=""> -->
+                        Категорий пока нет
+                    </p>
                 </div>
 
             </div>

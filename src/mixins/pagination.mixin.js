@@ -9,7 +9,6 @@ export default {
             items: [],
         }
     },
-    
     methods: {
         setupPagination(allItems) {
             this.allItems = _.chunk(allItems, this.pageSize)
@@ -17,10 +16,9 @@ export default {
             this.items = this.allItems[this.page - 1] || this.allItems
         },
         pageChangeHandler(page) {
-            console.log('pageChangeHandler');
+            // console.log('pageChangeHandler');
             this.items = this.allItems[page - 1] || this.allItems
             this.$router.push(`${this.$route.path}?page=${page}`)
-
         }
     }
 }

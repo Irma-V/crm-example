@@ -7,6 +7,7 @@
         <Loader v-if="loading || !categories" />
 
         <p v-else-if="!categories.length" class="no-categories center flow-text teal-text">
+            <img src="~@/assets/img/notFoundMini.webp" alt="">
             Категорий пока нет.
             <router-link to='/categories' class=" orange-text">
                 Нажмите сюда для перехода в "Категории"!
@@ -155,7 +156,7 @@ export default {
                     this.v$.$reset()
                     this.amount = 1
                     this.description = ''
-                } catch (error) { 
+                } catch (error) {
                     console.log(error);
                 }
 

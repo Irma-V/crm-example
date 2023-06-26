@@ -99,7 +99,7 @@ router.beforeEach(async (to) => {
 
     const requiresAuth = to.matched.some((record) => record.meta.auth)
     if (requiresAuth && !(await getCurrentUser())) {
-        return '/login'
+        return '/login?message=login'
     }
 });
 

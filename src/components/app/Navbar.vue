@@ -5,8 +5,8 @@
                 <a href="#" @click.prevent="$emit('clickOnBurger')">
                     <i class="material-icons black-text">dehaze</i>
                 </a>
-                <!-- <span class="black-text">{{ date | date }}</span> -->
-                <span class="black-text">{{ date }}</span>
+                <span class="black-text">{{ dateFilter }}</span>
+                <!-- <span class="black-text">{{ date }}</span> -->
             </div>
 
             <ul class="right hide-on-small-and-down">
@@ -15,7 +15,7 @@
                         <!-- USER NAME  -->
                         <!-- {{ userName }} -->
                         {{ getName }}
-                        
+
                         <i class="material-icons right">arrow_drop_down</i>
                     </a>
 
@@ -43,6 +43,7 @@
 import { auth } from '@/main'
 import store from '@/store'
 
+
 export default {
     name: "VNavbar",
     components: {},
@@ -56,12 +57,11 @@ export default {
         }
     },
     mounted() {
-        // this.interval = setInterval(() => {
-        //     this.date = new Date()
-        // }, 1000)
+        this.interval = setInterval(() => {
+            this.date = new Date()
+        }, 1000)
 
-        // console.log(this.date.getDate() + '.' + (this.date.getMonth() + 1) + '.' + this.date.getFullYear())
-        this.date = this.date.getDate() + '.0' + (this.date.getMonth() + 1) + '.' + this.date.getFullYear()
+        // this.date = this.date.getDate() + '.0' + (this.date.getMonth() + 1) + '.' + this.date.getFullYear()
 
         this.dropdown = M.Dropdown.init(this.$refs.dropdown, {
             constrainWidth: true
@@ -78,6 +78,34 @@ export default {
     computed: {
         getName() {
             return store.getters.info.userName
+        },
+
+        dateFilter() {
+            // console.log(this.date);
+            // return this.date
+            const options = {
+                /* При необходимости раскомментить нужную комбинацию формата даты*/
+
+                // day: "numeric",
+                day: "2-digit",
+
+                // month: "long",
+                // month: "numeric",
+                month: "2-digit",
+
+                year: "numeric",
+                // year: "2-digit",
+
+
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+
+                // hour: "2-digit",
+                // minute: "2-digit",
+                // second: "2-digit",
+            }
+            return new Intl.DateTimeFormat("ru-RU", options).format(new Date(this.date));
         }
     },
 

@@ -30,6 +30,7 @@ createApp(App)
 .use(store)
 .use(router)
 .use(messagePlugin)
+// .config.globalProperties.$filters(('dateFilter', dateFilter))
 .directive('tooltip', tooltip)
 .component('Loader', Loader)
 .mount("#app");

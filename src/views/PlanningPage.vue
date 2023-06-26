@@ -4,11 +4,12 @@
             <h3>Планирование</h3>
             <h4>{{ info.bill.toFixed(2) }} ₽</h4>
         </div>
-        <Loader v-else/>
+        <Loader v-else />
 
         <Loader v-if="loading || !categories" />
 
         <p v-else-if="!categories.length" class="no-categories center flow-text teal-text">
+            <img src="~@/assets/img/notFoundMini.webp" alt="">
             Категорий пока нет.
             <router-link to='/categories' class=" orange-text">
                 Нажмите сюда для перехода в "Категории"!
@@ -22,7 +23,8 @@
                     {{ item.spend }} ₽ из {{ item.limit }} ₽
                 </p>
                 <div class="progress" v-tooltip="item.tooltip">
-                    <div class="determinate" :class="[item.progressColor]" :style="{ width: item.progressPercent+'%'}"></div>
+                    <div class="determinate" :class="[item.progressColor]" :style="{ width: item.progressPercent + '%' }">
+                    </div>
                 </div>
             </div>
         </section>
@@ -65,13 +67,13 @@ export default {
             const progressPercent = percent > 100 ? 100 : percent
             const progressColor = (percent < 60) ? 'green' : (percent < 95) ? 'yellow darken-3' : 'red'
             let tooltipVal = categ.limit - spend
-            const tooltip = `${tooltipVal < 0 ? 'Лимит превышен на': 'Осталось'} ${Math.abs(tooltipVal)} ₽`
+            const tooltip = `${tooltipVal < 0 ? 'Лимит превышен на' : 'Осталось'} ${Math.abs(tooltipVal)} ₽`
             return {
-                ...categ, 
+                ...categ,
                 progressPercent,
                 progressColor,
                 spend,
-                tooltip 
+                tooltip
             }
 
         })
