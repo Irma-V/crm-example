@@ -24,15 +24,15 @@
             :page-count="pageCount" 
             :page-range="3" 
             :margin-pages="2" 
-            :initial-page="1"
+            :initial-page="1"                
             :click-handler="pageChangeHandler" 
             :prev-text="'«'" 
             :next-text="'»'" 
-            :container-class="'pagination'"
+            :container-class="'pagination'"                
             :page-class="'waves-effect'" 
             :page-link-class="'black-text'" 
             :active-class="'blue'" 
-            :prev-class="''"
+            :prev-class="''"                
             :next-class="''">
             </paginate>
             <HistoryTable :records="items" />
@@ -63,10 +63,17 @@ export default {
         }
     },
     async mounted() {
-        this.records = await store.dispatch('fetchRecords')
-        // const records = await store.dispatch('fetchRecords')
+        // this.records = await store.dispatch('fetchRecords')
+        const records = await store.dispatch('fetchRecords')
         const categories = await store.dispatch('fetchCategories')
 
+        // this.records = records.reverse()
+        /* reverse() - слишком простой способ для сортировки записей по убыванию. Следует привязать к датам*/
+        this.records = records.sort((a, b) => {
+            if (a.date > b.date) {
+                return -1
+            }
+        });
 
         this.setupPagination(
             this.records.map(record => {
@@ -80,14 +87,12 @@ export default {
             })
         )
 
-
         this.loading = false
         // console.log("this.records: ", this.records);
         // console.log("records: ", records);
-        // console.log("this.categories: ", this.categories);
+        // console.log("this.categories: ", this.categories);        
     },
-    methods: {
 
-    },
+    methods: {},
 }
 </script>

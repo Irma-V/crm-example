@@ -78,7 +78,7 @@ export default {
 
         })
 
-        console.log(this.categories);
+        // console.log(this.categories);
         this.loading = false
     },
 

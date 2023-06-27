@@ -47,12 +47,8 @@ export default {
 
         }
     },
+    
     methods: {
-        // formatDate(date){
-        //    date = date.getDate() + '.0' + (date.getMonth() + 1) + '.' + date.getFullYear()
-        //     return date
-        // }
-
         dateFilter(value) {
             const options = {
                 /* При необходимости раскомментить нужную комбинацию формата даты*/
@@ -77,7 +73,8 @@ export default {
                 // second: "2-digit",
             }
             return new Intl.DateTimeFormat("ru-RU", options).format(new Date(value));
-        }
+        },
+
     }
 }
 </script>
