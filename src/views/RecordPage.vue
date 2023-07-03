@@ -24,7 +24,7 @@
                 <label>Выберите категорию</label>
             </div>
 
-            <!-- <div v-for="item in categories" :key="item" class="jopa">
+            <!-- <div v-for="item in categories" :key="item" class="foo">
                 {{ item }}
             </div> -->
 

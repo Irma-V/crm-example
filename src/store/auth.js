@@ -5,7 +5,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   setPersistence,
-  browserSessionPersistence
+  browserSessionPersistence,
+  browserLocalPersistence,
 } from "firebase/auth";
 
 import { ref, set } from "firebase/database";
@@ -71,7 +72,7 @@ export default {
       //   console.log(response.user);  /* содержимое экземпляра user */
       if (response) {
         context.commit("SET_USER", response.user);
-        setPersistence(auth, browserSessionPersistence)
+        setPersistence(auth, browserLocalPersistence)
           .then(() => {
             // Existing and future Auth states are now persisted in the current
             // session only. Closing the window would clear any existing state even

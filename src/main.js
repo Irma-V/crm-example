@@ -4,7 +4,8 @@ import router from "./router";
 import store from "./store";
 import "materialize-css/dist/js/materialize.min";
 // import dateFilter from "./filters/date.filter";
-import Loader from '@/components/app/Loader';
+// import localizeFilter from "./filters/localize.filter";
+import Loader from "@/components/app/Loader";
 
 import messagePlugin from "@/utils/message.plugin";
 import tooltip from "@/directives/tooltip.directive";
@@ -13,30 +14,34 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 
-
 const firebaseConfig = {
-    apiKey: "AIzaSyAITusZAn6_V_yz_UlNf3SNmnwNFWBRLD8",
-    authDomain: "crm-example-67f6a.firebaseapp.com",
-    projectId: "crm-example-67f6a",
-    storageBucket: "crm-example-67f6a.appspot.com",
-    messagingSenderId: "944080150353",
-    appId: "1:944080150353:web:37cd566c2130b84b19bd70"
+  apiKey: "AIzaSyAITusZAn6_V_yz_UlNf3SNmnwNFWBRLD8",
+  authDomain: "crm-example-67f6a.firebaseapp.com",
+  projectId: "crm-example-67f6a",
+  storageBucket: "crm-example-67f6a.appspot.com",
+  messagingSenderId: "944080150353",
+  appId: "1:944080150353:web:37cd566c2130b84b19bd70",
 };
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
+// createApp(App).config.globalProperties.$filters = {
+//     // localizeFilter
+//     jopa(value) {
+//         return `${value} is jopa`
+//     }
+// };
+
 createApp(App)
-.use(store)
-.use(router)
-.use(messagePlugin)
-// .config.globalProperties.$filters(('dateFilter', dateFilter))
-.directive('tooltip', tooltip)
-.component('Loader', Loader)
-.mount("#app");
+  .use(store)
+  .use(router)
+  .use(messagePlugin)
+  .directive("tooltip", tooltip)
+  .component("Loader", Loader)
+  .mount("#app");
 
 const auth = getAuth();
-
 
 export { app, database, auth };
 

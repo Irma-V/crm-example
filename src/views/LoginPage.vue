@@ -124,7 +124,6 @@ export default {
 
                 if (errors[error].$message === "This field should be at least 6 characters long") {
                     // this.validErrorMsg === "Пароль должен содержать не менее 6 символов"
-                    // console.log('jopa');
                     // console.log(errors[error].$message);
                 }
             }

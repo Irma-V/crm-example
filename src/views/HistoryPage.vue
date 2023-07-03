@@ -5,7 +5,7 @@
         </div>
 
         <div class="history-chart">
-            <canvas></canvas>
+            <canvas ref="canvas"></canvas>
         </div>
 
         <Loader v-if="loading || !records" />
@@ -19,21 +19,10 @@
         </p>
 
         <section v-else>
-            <paginate 
-            v-model="page" 
-            :page-count="pageCount" 
-            :page-range="3" 
-            :margin-pages="2" 
-            :initial-page="1"                
-            :click-handler="pageChangeHandler" 
-            :prev-text="'«'" 
-            :next-text="'»'" 
-            :container-class="'pagination'"                
-            :page-class="'waves-effect'" 
-            :page-link-class="'black-text'" 
-            :active-class="'blue'" 
-            :prev-class="''"                
-            :next-class="''">
+            <paginate v-model="page" :page-count="pageCount" :page-range="3" :margin-pages="2" :initial-page="1"
+                :click-handler="pageChangeHandler" :prev-text="'«'" :next-text="'»'" :container-class="'pagination'"
+                :page-class="'waves-effect'" :page-link-class="'black-text'" :active-class="'blue'" :prev-class="''"
+                :next-class="''">
             </paginate>
             <HistoryTable :records="items" />
         </section>
@@ -48,6 +37,8 @@ import store from "@/store";
 import Paginate from 'vuejs-paginate-next';
 import paginationMixin from "@/mixins/pagination.mixin";
 
+import { Pie } from 'vue-chartjs'
+
 export default {
     name: 'HistoryPage',
     components: {
@@ -55,11 +46,22 @@ export default {
         Loader,
         paginate: Paginate,
     },
+    extends: Pie,
     mixins: [paginationMixin],
     data() {
         return {
             loading: true,
             records: [],
+
+            // chartData: {
+            //     labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
+            //     datasets: [{
+            //         label: 'Dataset 1',
+            //         data: Utils.numbers(NUMBER_CFG),
+            //         backgroundColor: Object.values(Utils.CHART_COLORS),
+            //         borderWidth: 1
+            //     }]
+            // }
         }
     },
     async mounted() {
@@ -86,6 +88,7 @@ export default {
                 }
             })
         )
+        // this.renderChart(this.chartData)
 
         this.loading = false
         // console.log("this.records: ", this.records);
@@ -93,6 +96,7 @@ export default {
         // console.log("this.categories: ", this.categories);        
     },
 
-    methods: {},
+    methods: {
+    },
 }
 </script>

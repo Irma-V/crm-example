@@ -62,7 +62,7 @@ export default {
         },
     },
     methoods: {
-        // jopa(arg) {
+        // foo(arg) {
         //     return Math.floor(base * this.rates[arg])
         // }
     }

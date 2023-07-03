@@ -17,11 +17,11 @@
             </div>
         </section>
 
-        <!-- <div v-for="item in categories" :key="item" class="jopa">
+        <!-- <div v-for="item in categories" :key="item" class="foo">
             {{ item }}
         </div> -->
 
-        <!-- <div v-for="item in getCategories" :key="item" class="jopa">
+        <!-- <div v-for="item in getCategories" :key="item" class="foo">
             {{ item }}
         </div> -->
     </div>

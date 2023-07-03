@@ -97,7 +97,8 @@ export default {
             const formData = {
                 email: this.email,
                 password: this.password,
-                name: this.name
+                name: this.name,
+                // agree: this.agree
             }
 
             try {
@@ -119,10 +120,13 @@ export default {
 
             for (let error in errors) {
                 // console.log(errors[error].$message);
-                
+
                 if (errors[error].$message === "Value is required") {
                     errors[error].$message = "Поле не должно быть пустым"
                     console.log(errors[error].$message);
+                }
+                if (errors[error].$message.includes('characters long')) {
+                    errors[error].$message = 'Количество символов в пароле меньше'
                 }
             }
         }
