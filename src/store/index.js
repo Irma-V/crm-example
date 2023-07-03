@@ -25,12 +25,12 @@ const store = createStore({
     async fetchCurrency() {
         console.log('получение данных с сервера');
         /* раскомментить при необходимости  */
-    //   const key = process.env.VUE_APP_FIXER;
-    //   return await fetch(
-    //     `http://data.fixer.io/api/latest?access_key=${key}&symbols=USD,EUR,RUB`
-    //   ).then((res) => {
-    //     return res.json();
-    //   });
+      const key = process.env.VUE_APP_FIXER;
+      return await fetch(
+        `http://data.fixer.io/api/latest?access_key=${key}&symbols=USD,EUR,RUB`
+      ).then((res) => {
+        return res.json();
+      });
     },
   },
   modules: {

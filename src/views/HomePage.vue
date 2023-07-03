@@ -69,23 +69,23 @@ export default {
         }
     },
     methods: {
-        getData() {
-            setTimeout(() => {
-                this.currency = {
-                    base: "EUR",
-                    date: this.date,
-                    rates: {
-                        USD: 1.095471,
-                        EUR: 1,
-                        RUB: 88.774224
-                    },
-                    success: true,
-                    timestamp: 1685700602
-                }
-            }, 1000)
+        async getData() {
+            // setTimeout(() => {
+            //     this.currency = {
+            //         base: "EUR",
+            //         date: this.date,
+            //         rates: {
+            //             USD: 1.089171,
+            //             EUR: 1,
+            //             RUB: 97.36566
+            //         },
+            //         success: true,
+            //         timestamp: 1685700602
+            //     }
+            // }, 1000)
 
-            // this.currency = await store.dispatch('fetchCurrency')
-            // console.log(this.currency);
+            this.currency = await store.dispatch('fetchCurrency')
+            console.log(this.currency);
             this.loading = false
         },
         refresh() {

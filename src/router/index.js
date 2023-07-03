@@ -39,7 +39,7 @@ const routes = [
   {
     path: "/categories",
     name: "categories",
-    meta: { layout: "main", auth: true },
+    meta: {  layout: "main", auth: true },
     component: () => import("../views/CategoriesPage"),
   },
   {

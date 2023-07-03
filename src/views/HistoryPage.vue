@@ -4,9 +4,9 @@
             <h3>История записей</h3>
         </div>
 
-        <div class="history-chart">
+        <!-- <div class="history-chart">
             <canvas ref="canvas"></canvas>
-        </div>
+        </div> -->
 
         <Loader v-if="loading || !records" />
 
